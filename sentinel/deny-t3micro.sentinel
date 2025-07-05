@@ -1,0 +1,10 @@
+import "tfplan/v2" as tfplan
+import "strings"
+
+main = rule {
+  all tfplan.resources.aws_instance as _, instances {
+    all instances as inst {
+      not strings.lower(inst.applied.instance_type) is "t3.micro"
+    }
+  }
+}
