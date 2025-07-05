@@ -2,11 +2,9 @@ import "tfplan/v2" as tfplan
 import "strings"
 
 main = rule {
-  all tfplan.resources.aws_instance as _, instances {
-    all instances as inst {
-      # Only check instance_type if it's set in the applied plan
-      not inst.applied contains "instance_type" or
-      strings.lower(inst.applied.instance_type) != "t3.micro"
-    }
+  all tfplan.resource_changes as r {
+    r.type is "aws_instance" and
+    all r.change.actions as action { action in ["create", "update"] } and
+    not strings.lower(r.change.after.instance_type) == "t3.micro"
   }
 }
