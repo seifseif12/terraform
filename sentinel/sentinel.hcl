@@ -1,4 +1,4 @@
-policy "deny-t2micro" {
-  source = "deny-t2micro.sentinel"
+policy "deny-t3micro" {
+  source = "deny-t3micro.sentinel"
   enforcement_level = "hard-mandatory"
 }
