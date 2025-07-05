@@ -4,7 +4,9 @@ import "strings"
 main = rule {
   all tfplan.resources.aws_instance as _, instances {
     all instances as inst {
-      not strings.lower(inst.applied.instance_type) is "t3.micro"
+      # Only check instance_type if it's set in the applied plan
+      not inst.applied contains "instance_type" or
+      strings.lower(inst.applied.instance_type) != "t3.micro"
     }
   }
 }
